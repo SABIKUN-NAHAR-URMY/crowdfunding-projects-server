@@ -46,28 +46,11 @@ async function run() {
             res.send(comments);
         })
 
-
-        // app.get('/reviews/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: ObjectId(id) };
-        //     const review = await reviewsCollection.findOne(query);
-        //     res.send(review);
-        // })
-
         app.post('/comments', async (req, res) => {
             const comment = req.body;
             const result = await commentsCollection.insertOne(comment);
             res.send(result);
         })
-
-        // app.delete('/reviews/:id', async (req, res) => {
-        //     const id = req.params.id;
-        //     const query = { _id: ObjectId(id) };
-        //     const result = await reviewsCollection.deleteOne(query);
-        //     res.send(result);
-
-        // })
-
     }
     finally {
 
