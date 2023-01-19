@@ -15,7 +15,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
         const blogsCollection = client.db('donation').collection('blogs');
-        const commentCollection = client.db('donation').collection('comments');
+        const commentsCollection = client.db('donation').collection('comments');
 
 
         app.get('/blogs', async (req, res) => {
@@ -33,18 +33,18 @@ async function run() {
         })
 
 
-        // app.get('/reviews/queryService', async (req, res) => {
+        app.get('/comments/queryBlog', async (req, res) => {
 
-        //     let query = {};
-        //     if (req.query.serviceName) {
-        //         query = {
-        //             serviceName: req.query.serviceName
-        //         }
-        //     }
-        //     const cursor = reviewsCollection.find(query).sort(sortPattern);
-        //     const reviews = await cursor.toArray();
-        //     res.send(reviews);
-        // })
+            let query = {};
+            if (req.query.blogName) {
+                query = {
+                    blogName: req.query.blogName
+                }
+            }
+            const cursor = commentsCollection.find(query);
+            const comments = await cursor.toArray();
+            res.send(comments);
+        })
 
 
         // app.get('/reviews/:id', async (req, res) => {
@@ -54,11 +54,11 @@ async function run() {
         //     res.send(review);
         // })
 
-        // app.post('/reviews', async (req, res) => {
-        //     const review = req.body;
-        //     const result = await reviewsCollection.insertOne(review);
-        //     res.send(result);
-        // })
+        app.post('/comments', async (req, res) => {
+            const comment = req.body;
+            const result = await commentsCollection.insertOne(comment);
+            res.send(result);
+        })
 
         // app.delete('/reviews/:id', async (req, res) => {
         //     const id = req.params.id;
