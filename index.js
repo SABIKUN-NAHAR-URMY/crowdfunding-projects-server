@@ -32,6 +32,11 @@ async function run() {
             res.send(service);
         })
 
+        app.post('/blogs', async (req, res) => {
+            const blog = req.body;
+            const result = await blogsCollection.insertOne(blog);
+            res.send(result);
+        });
 
         app.get('/comments/queryBlog', async (req, res) => {
 
