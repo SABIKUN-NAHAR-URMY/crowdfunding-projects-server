@@ -16,6 +16,7 @@ async function run() {
     try {
         const blogsCollection = client.db('donation').collection('blogs');
         const commentsCollection = client.db('donation').collection('comments');
+        const campaignCollection = client.db('donation').collection('campaign');
 
 
         app.get('/blogs', async (req, res) => {
@@ -54,6 +55,19 @@ async function run() {
         app.post('/comments', async (req, res) => {
             const comment = req.body;
             const result = await commentsCollection.insertOne(comment);
+            res.send(result);
+        })
+
+        app.get('/campaign', async (req, res) => {
+            const query = {};
+            const cursor = campaignCollection.find(query);
+            const campaign = await cursor.toArray();
+            res.send(campaign);
+        })
+
+        app.post('/campaign', async (req, res) => {
+            const campaign = req.body;
+            const result = await campaignCollection.insertOne(campaign);
             res.send(result);
         })
     }
