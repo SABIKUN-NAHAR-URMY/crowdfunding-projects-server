@@ -17,6 +17,7 @@ async function run() {
         const blogsCollection = client.db('donation').collection('blogs');
         const commentsCollection = client.db('donation').collection('comments');
         const campaignCollection = client.db('donation').collection('campaign');
+        const ngoSignupCollection = client.db('donation').collection('ngoSignup');
 
 
         app.get('/blogs', async (req, res) => {
@@ -68,6 +69,27 @@ async function run() {
         app.post('/campaign', async (req, res) => {
             const campaign = req.body;
             const result = await campaignCollection.insertOne(campaign);
+            res.send(result);
+        })
+
+        app.get('/ngosignup', async (req, res) => {
+            const query = {};
+            const cursor = ngoSignupCollection.find(query);
+            const ngoSignup = await cursor.toArray();
+            res.send(ngoSignup);
+        })
+
+        app.get('/ngosignup/:id', async (req, res) => {
+            const id = req.params.id;
+            const query = { _id: ObjectId(id) };
+            const ngosignup = await ngoSignupCollection.findOne(query);
+            res.send(ngosignup);
+        })
+
+
+        app.post('/ngosignup', async (req, res) => {
+            const ngoSignup = req.body;
+            const result = await ngoSignupCollection.insertOne(ngoSignup);
             res.send(result);
         })
     }
